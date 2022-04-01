@@ -1,11 +1,12 @@
 from typing import Optional
-
+import aioredis
 from fastapi import Depends, Request
 from fastapi_users import BaseUserManager, FastAPIUsers
 from fastapi_users.authentication import (
     AuthenticationBackend,
     BearerTransport,
-    JWTStrategy,
+    # JWTStrategy,
+    RedisStrategy,
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
 
@@ -16,6 +17,7 @@ from app.config.config import Settings
 global_settings = Settings()
 
 SECRET = global_settings.secret_key
+REDIS_URL = global_settings.redis_url
 
 
 class UserManager(BaseUserManager[UserCreate, UserDB]):
@@ -43,15 +45,22 @@ async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db
 
 bearer_transport = BearerTransport(tokenUrl="auth/jwt/login")
 
+redis = aioredis.from_url(REDIS_URL, decode_responses=True)
 
-def get_jwt_strategy() -> JWTStrategy:
-    return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
+
+# def get_jwt_strategy() -> JWTStrategy:
+#     return JWTStrategy(secret=SECRET, lifetime_seconds=3600)
+
+
+def get_redis_strategy() -> RedisStrategy:
+    return RedisStrategy(redis, lifetime_seconds=3600)
 
 
 auth_backend = AuthenticationBackend(
     name="jwt",
     transport=bearer_transport,
-    get_strategy=get_jwt_strategy,
+    # get_strategy=get_jwt_strategy,
+    get_strategy=get_redis_strategy,
 )
 fastapi_users = FastAPIUsers(
     get_user_manager,
