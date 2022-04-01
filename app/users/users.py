@@ -11,8 +11,11 @@ from fastapi_users.db import SQLAlchemyUserDatabase
 
 from app.users.db import get_user_db
 from app.users.models import User, UserCreate, UserDB, UserUpdate
+from app.config.config import Settings
 
-SECRET = "SECRET"
+global_settings = Settings()
+
+SECRET = global_settings.secret_key
 
 
 class UserManager(BaseUserManager[UserCreate, UserDB]):
