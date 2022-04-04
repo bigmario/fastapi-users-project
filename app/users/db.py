@@ -7,10 +7,13 @@ from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from app.users.models import UserDB
+from app.config import Settings
 
+g_sets = Settings()
 
-# DATABASE_URL = postgresql://user:password@postgresserver/db
-DATABASE_URL = "sqlite+aiosqlite:///./test.db"
+DATABASE_URL = "postgresql+asyncpg://admin:admin@postgres/users_db"
+# DATABASE_URL = "sqlite+aiosqlite:///./test.db"
+
 Base: DeclarativeMeta = declarative_base()
 
 

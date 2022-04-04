@@ -8,9 +8,5 @@ class Settings(BaseSettings):
     host: str = Field(os.environ.get("HOST"))
     log_level: str = Field(os.environ.get("LOG_LEVEL"))
 
-    postgres_db: str = Field(os.environ.get("POSTGRES_DB"))
-    postgres_user: str = Field(os.environ.get("POSTGRES_USER"))
-    postgres_password: str = Field(os.environ.get("POSTGRES_PASSWORD"))
-
     class Config:
         env_file = f"{os.getcwd()}/.env"
