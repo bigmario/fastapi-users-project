@@ -6,6 +6,14 @@ COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-COPY ./app /code/app
+ENV SECRET_KEY 988f1a680636d521d845768dc62a32f4b87b8155244c0eded1e493dbb88abdb9
+ENV REDIS_URL redis://localhost:6379
+ENV HOST 0.0.0.0
+ENV LOG_LEVEL info
 
-CMD ["uvicorn", "app.app:app", "--host", "0.0.0.0"]
+COPY ./app /code/app
+COPY ./main.py /code
+
+EXPOSE 8000
+
+CMD ["python", "main.py"]
