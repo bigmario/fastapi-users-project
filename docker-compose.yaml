@@ -2,11 +2,26 @@ version: "3.8"
 services:
 
   app:
-    build:
-      dockerfile: ./Dockerfile
+    build: .
     container_name: auth-service
+    environment:
+      SECRET_KEY: "${SECRET_KEY}"
+      REDIS_URL: redis://auth_redis:6379
+      HOST: "${HOST}"
+      LOG_LEVEL: "${LOG_LEVEL}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
     ports:
-      - 8000:8000
+      - 8001:8000
+    networks:
+      - main-network
+
+  redis:
+    image: redis:latest
+    container_name: auth_redis
+    ports:
+      - 6380:6379
     networks:
       - main-network
 
@@ -21,7 +36,7 @@ services:
     ports:
       - 3307:3306
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data
+      - ./app/postgres-data:/var/lib/postgresql/data
     restart: always
     networks:
       - main-network

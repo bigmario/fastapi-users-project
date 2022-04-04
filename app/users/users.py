@@ -36,7 +36,8 @@ class UserManager(BaseUserManager[UserCreate, UserDB]):
     async def on_after_request_verify(
         self, user: UserDB, token: str, request: Optional[Request] = None
     ):
-        print(f"Verification requested for user {user.id}. Verification token: {token}")
+        print(f"Verification user ID: {user.id}")
+        print(f"Verification token: {token}")
 
 
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):

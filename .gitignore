@@ -157,5 +157,6 @@ cython_debug/
 #.idea/
 
 test.db
+postgres_data/
 
 # End of https://www.toptal.com/developers/gitignore/api/python
