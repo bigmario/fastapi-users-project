@@ -3,4 +3,5 @@ fastapi-users[sqlalchemy2]
 uvicorn[standard]
 aiosqlite
 asyncpg
+aioredis
 black
