@@ -8,6 +8,8 @@ from sqlalchemy.orm import sessionmaker
 
 from app.users.models import UserDB
 
+
+# DATABASE_URL = postgresql://user:password@postgresserver/db
 DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 Base: DeclarativeMeta = declarative_base()
 

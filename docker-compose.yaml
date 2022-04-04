@@ -1,0 +1,30 @@
+version: "3.8"
+services:
+
+  app:
+    build:
+      dockerfile: ./Dockerfile
+    container_name: auth-service
+    ports:
+      - 8000:8000
+    networks:
+      - main-network
+
+  # Database for KeyCloak Auth Service
+  postgres:
+    image: postgres:latest
+    container_name: auth-db
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - 3307:3306
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - main-network
+
+networks:
+  main-network:
