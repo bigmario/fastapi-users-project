@@ -10,9 +10,9 @@ from fastapi_users.authentication import (
 )
 from fastapi_users.db import SQLAlchemyUserDatabase
 
-from app.users.db import get_user_db
+from app.users.repository import get_user_db
 from app.users.models import User, UserCreate, UserDB, UserUpdate
-from app.config.config import Settings
+from app.config import Settings
 
 global_settings = Settings()
 
