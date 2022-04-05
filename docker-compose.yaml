@@ -45,6 +45,7 @@ services:
     links:
       - postgres:auth-db
       - redis:auth-service
+    restart: always
 
 volumes:
   db:
