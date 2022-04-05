@@ -30,6 +30,17 @@ target_metadata = None
 # ... etc.
 
 
+def __get_postgresql_url():
+    params = [
+        global_settings.postgres_user,
+        global_settings.postgres_password,
+        global_settings.postgres_server,
+        global_settings.postgres_port,
+        global_settings.postgres_db,
+    ]
+    return f"postgresql://{params[0]}:{params[1]}@{params[2]}:{params[3]}/{params[4]}"
+
+
 def run_migrations_offline():
     """Run migrations in 'offline' mode.
 
@@ -42,16 +53,8 @@ def run_migrations_offline():
     script output.
 
     """
-    params = [
-        global_settings.postgres_user,
-        global_settings.postgres_password,
-        global_settings.postgres_server,
-        global_settings.postgres_port,
-        global_settings.postgres_db,
-    ]
 
-    url = f"postgresql://{params[0]}:{params[1]}@{params[2]}:{params[3]}/{params[4]}"
-    # url = config.get_main_option("sqlalchemy.url")
+    url = config.set_main_option("sqlalchemy.url", __get_postgresql_url())
 
     context.configure(
         url=url,
