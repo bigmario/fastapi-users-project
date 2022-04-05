@@ -11,7 +11,17 @@ from app.config import Settings
 
 g_sets = Settings()
 
-DATABASE_URL = "postgresql+asyncpg://admin:admin@postgres/users_db"
+params = [
+    g_sets.postgres_user,
+    g_sets.postgres_password,
+    g_sets.postgres_server,
+    g_sets.postgres_port,
+    g_sets.postgres_db,
+]
+
+DATABASE_URL = (
+    f"postgresql+asyncpg://{params[0]}:{params[1]}@{params[2]}:{params[3]}/{params[4]}"
+)
 # DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 
 Base: DeclarativeMeta = declarative_base()
