@@ -6,9 +6,9 @@ COPY ./requirements.txt /code/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
-RUN alembic init alembic
-
 COPY ./alembic /code/alembic
+COPY ./alembic.ini /code
+
 COPY ./app /code/app
 COPY ./main.py /code
 
