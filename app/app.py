@@ -3,7 +3,14 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.users.repository import create_db_and_tables
 from app.users.models import UserDB
-from app.users import auth_backend, current_active_user, fastapi_users
+from app.users import current_active_user
+from app.users.controller import (
+    auth_jwt_router,
+    get_register_router,
+    get_reset_password_router,
+    get_verify_router,
+    get_users_router,
+)
 
 origins = ["*"]
 
@@ -17,23 +24,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(
-    fastapi_users.get_auth_router(auth_backend, requires_verification=True),
-    prefix="/auth/jwt",
-    tags=["auth"],
-)
-app.include_router(fastapi_users.get_register_router(), prefix="/auth", tags=["auth"])
-app.include_router(
-    fastapi_users.get_reset_password_router(),
-    prefix="/auth",
-    tags=["auth"],
-)
-app.include_router(
-    fastapi_users.get_verify_router(),
-    prefix="/auth",
-    tags=["auth"],
-)
-app.include_router(fastapi_users.get_users_router(), prefix="/users", tags=["users"])
+app.include_router(auth_jwt_router)
+app.include_router(get_register_router)
+app.include_router(get_reset_password_router)
+app.include_router(get_verify_router)
+app.include_router(get_users_router)
 
 
 @app.get("/authenticated-route")
