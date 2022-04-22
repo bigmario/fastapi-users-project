@@ -1,13 +1,15 @@
 from typing import AsyncGenerator
 
 from fastapi import Depends
-from fastapi_users.db import SQLAlchemyBaseUserTable, SQLAlchemyUserDatabase
+from fastapi_users.db import SQLAlchemyUserDatabase
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
 from sqlalchemy.orm import sessionmaker
 
 from app.users.models import UserDB
 from app.config import Settings
+
+from app.users.models.schemas import UserTable, Base
+
 
 g_sets = Settings()
 
@@ -23,13 +25,6 @@ DATABASE_URL = (
     f"postgresql+asyncpg://{params[0]}:{params[1]}@{params[2]}:{params[3]}/{params[4]}"
 )
 # DATABASE_URL = "sqlite+aiosqlite:///./test.db"
-
-Base: DeclarativeMeta = declarative_base()
-
-
-class UserTable(Base, SQLAlchemyBaseUserTable):
-    pass
-
 
 engine = create_async_engine(DATABASE_URL)
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
