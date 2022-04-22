@@ -8,3 +8,7 @@ Base: DeclarativeMeta = declarative_base()
 class UserTable(Base, SQLAlchemyBaseUserTable):
     first_name = Column(String)
     last_name = Column(String)
+    birth_date = Column(Date)
+    role = Column(String)
+    phone = Column(String)
+    address = Column(String)

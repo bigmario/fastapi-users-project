@@ -1,6 +1,6 @@
 from logging.config import fileConfig
 
-from sqlalchemy import engine_from_config
+from sqlalchemy import engine_from_config, create_engine
 from sqlalchemy import pool
 
 from alembic import context
@@ -54,7 +54,7 @@ def run_migrations_offline():
 
     """
 
-    url = config.set_main_option("sqlalchemy.url", __get_postgresql_url())
+    url = __get_postgresql_url()
 
     context.configure(
         url=url,
@@ -74,11 +74,13 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    # connectable = engine_from_config(
+    #     config.get_section(config.config_ini_section),
+    #     prefix="sqlalchemy.",
+    #     poolclass=pool.NullPool,
+    # )
+
+    connectable = create_engine(__get_postgresql_url())
 
     with connectable.connect() as connection:
         context.configure(connection=connection, target_metadata=target_metadata)
