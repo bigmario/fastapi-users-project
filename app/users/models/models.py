@@ -1,19 +1,24 @@
 import datetime
 from typing import Optional
+
 from fastapi_users import models
 
 
 class User(models.BaseUser):
-    pass
+    first_name: str
+    last_name: str
 
 
 class UserCreate(models.BaseUserCreate):
-    pass
+    first_name: str
+    last_name: str
 
 
 class UserUpdate(models.BaseUserUpdate):
-    pass
+    first_name: Optional[str]
+    last_name: Optional[str]
 
 
 class UserDB(User, models.BaseUserDB):
-    pass
+    first_name: Optional[str]
+    last_name: Optional[str]
