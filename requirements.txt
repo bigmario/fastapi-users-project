@@ -1,5 +1,5 @@
 fastapi
-fastapi-users[sqlalchemy2]
+fastapi-users[sqlalchemy2]==9.2.5
 uvicorn[standard]
 psycopg2
 aiosqlite
